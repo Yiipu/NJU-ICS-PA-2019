@@ -1,3 +1,4 @@
+#include "debug.h"
 #include "monitor/expr.h"
 #include "monitor/monitor.h"
 #include "monitor/watchpoint.h"
@@ -37,6 +38,26 @@ static int cmd_q(char *args) { return -1; }
 
 static int cmd_help(char *args);
 
+// si [N] 执行 N 步后暂停，默认为 1
+static int cmd_si(char *args) {
+  panic("TODO: implement `si`");
+  if (args == NULL) {
+    cpu_exec(1);
+  } else {
+    int N = atoi(args);
+    cpu_exec(N);
+  }
+}
+static int cmd_info(char *args) { panic("TODO: implement `info`"); }
+
+static int cmd_p(char *args) { panic("TODO: implement `p`"); }
+
+static int cmd_x(char *args) { panic("TODO: implement `x`"); }
+
+static int cmd_w(char *args) { panic("TODO: implement `w`"); }
+
+static int cmd_d(char *args) { panic("TODO: implement `d`"); }
+
 // CLI 的命令表，在这里添加命令和命令处理函数
 static struct {
   char *name;
@@ -46,7 +67,13 @@ static struct {
     {"help", "Display informations about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
-
+    {"si", "Step through N instructions, default is 1 if N is not given",
+     cmd_si},
+    {"info", "Print program status", cmd_info},
+    {"p", "Evaluate the expression EXPR", cmd_p},
+    {"x", "Scan memory starting from the address evaluated from EXPR", cmd_x},
+    {"w", "Set a watchpoint for expression EXPR", cmd_w},
+    {"d", "Delete the watchpoint with sequence number N", cmd_d},
     /* TODO: Add more commands */
 
 };
