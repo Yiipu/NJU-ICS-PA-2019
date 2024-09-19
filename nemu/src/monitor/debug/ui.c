@@ -53,7 +53,6 @@ static int cmd_si(char *args) {
 
 // info { r | w } 打印寄存器状态
 static int cmd_info(char *args) {
-  // panic("TODO: implement `info`");
   if (args == NULL) {
     printf("info r: print register status\n");
     printf("info w: print watchpoint status\n");
