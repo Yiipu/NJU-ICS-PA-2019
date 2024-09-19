@@ -10,6 +10,8 @@
 
 void cpu_exec(uint64_t);
 
+void isa_reg_display();
+
 /* We use the `readline' library to provide more flexibility to read from stdin.
  */
 static char *rl_gets() {
@@ -46,8 +48,33 @@ static int cmd_si(char *args) {
     int N = atoi(args);
     cpu_exec(N);
   }
+  return 0;
 }
-static int cmd_info(char *args) { panic("TODO: implement `info`"); }
+
+// info { r | w } 打印寄存器状态
+static int cmd_info(char *args) {
+  // panic("TODO: implement `info`");
+  if (args == NULL) {
+    printf("info r: print register status\n");
+    printf("info w: print watchpoint status\n");
+    return 0;
+  }
+  switch (args[0]) {
+  case 'r': {
+    isa_reg_display();
+    break;
+  }
+  case 'w': {
+    panic("TODO: implement `info w`");
+    break;
+  }
+  default: {
+    printf("Unknown command '%s'\n", args);
+    break;
+  }
+  }
+  return 0;
+}
 
 static int cmd_p(char *args) { panic("TODO: implement `p`"); }
 
