@@ -1,16 +1,17 @@
-#include "monitor/monitor.h"
 #include "monitor/expr.h"
+#include "monitor/monitor.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
 
-#include <stdlib.h>
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
+#include <stdlib.h>
 
 void cpu_exec(uint64_t);
 
-/* We use the `readline' library to provide more flexibility to read from stdin. */
-static char* rl_gets() {
+/* We use the `readline' library to provide more flexibility to read from stdin.
+ */
+static char *rl_gets() {
   static char *line_read = NULL;
 
   if (line_read) {
@@ -32,22 +33,21 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-static int cmd_q(char *args) {
-  return -1;
-}
+static int cmd_q(char *args) { return -1; }
 
 static int cmd_help(char *args);
 
+// CLI 的命令表，在这里添加命令和命令处理函数
 static struct {
   char *name;
   char *description;
-  int (*handler) (char *);
-} cmd_table [] = {
-  { "help", "Display informations about all supported commands", cmd_help },
-  { "c", "Continue the execution of the program", cmd_c },
-  { "q", "Exit NEMU", cmd_q },
+  int (*handler)(char *);
+} cmd_table[] = {
+    {"help", "Display informations about all supported commands", cmd_help},
+    {"c", "Continue the execution of the program", cmd_c},
+    {"q", "Exit NEMU", cmd_q},
 
-  /* TODO: Add more commands */
+    /* TODO: Add more commands */
 
 };
 
@@ -60,12 +60,11 @@ static int cmd_help(char *args) {
 
   if (arg == NULL) {
     /* no argument given */
-    for (i = 0; i < NR_CMD; i ++) {
+    for (i = 0; i < NR_CMD; i++) {
       printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
     }
-  }
-  else {
-    for (i = 0; i < NR_CMD; i ++) {
+  } else {
+    for (i = 0; i < NR_CMD; i++) {
       if (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
@@ -82,12 +81,14 @@ void ui_mainloop(int is_batch_mode) {
     return;
   }
 
-  for (char *str; (str = rl_gets()) != NULL; ) {
+  for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
 
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
-    if (cmd == NULL) { continue; }
+    if (cmd == NULL) {
+      continue;
+    }
 
     /* treat the remaining string as the arguments,
      * which may need further parsing
@@ -103,13 +104,17 @@ void ui_mainloop(int is_batch_mode) {
 #endif
 
     int i;
-    for (i = 0; i < NR_CMD; i ++) {
+    for (i = 0; i < NR_CMD; i++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) {
+          return;
+        }
         break;
       }
     }
 
-    if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
+    if (i == NR_CMD) {
+      printf("Unknown command '%s'\n", cmd);
+    }
   }
 }
