@@ -40,7 +40,7 @@ static int cmd_help(char *args);
 
 // si [N] 执行 N 步后暂停，默认为 1
 static int cmd_si(char *args) {
-  panic("TODO: implement `si`");
+  // panic("TODO: implement `si`");
   if (args == NULL) {
     cpu_exec(1);
   } else {
