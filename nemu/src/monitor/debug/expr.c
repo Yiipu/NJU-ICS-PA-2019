@@ -31,7 +31,7 @@ static struct rule {
     {"/", TK_DIVIDE},            // /
     {"\\(", TK_LPAREN},          // (
     {"\\)", TK_RPAREN},          // )
-    {"[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
+    {"0|[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
     {"==", TK_EQ}                // equal
 };
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]))
@@ -115,7 +115,7 @@ static bool make_token(char *e) {
 #endif
           break;
         default:
-          panic("Bad token type");
+          panic("Not a valid token type");
           break;
         }
 
@@ -148,14 +148,14 @@ int dominant_operator(int p, int q) {
       break;
     case TK_PLUS:
     case TK_MINUS:
-      if (op_in_parentheses == 0 && op_priority < 1) {
+      if (op_in_parentheses == 0 && op_priority < 2) {
         op = i;
         op_priority = 1;
       }
       break;
     case TK_MULTIPLY:
     case TK_DIVIDE:
-      if (op_in_parentheses == 0 && op_priority < 2) {
+      if (op_in_parentheses == 0 && op_priority < 1) {
         op = i;
         op_priority = 2;
       }
@@ -194,6 +194,7 @@ bool check_parentheses(int p, int q) {
     default:
       break;
     }
+    p++;
   }
   return s.top == -1;
 }
@@ -202,13 +203,13 @@ uint32_t eval(int p, int q, bool *ok) {
   if (p > q) {
     /* Bad expression */
     *ok = false;
+    printf("Bad expression\n");
     return 0;
   } else if (p == q) {
     /* Single token.
      * For now this token should be a number.
      * Return the value of the number.
      */
-    *ok = true;
     return atoi(tokens[p].str);
   } else if (check_parentheses(p, q) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
@@ -219,6 +220,7 @@ uint32_t eval(int p, int q, bool *ok) {
     int op = dominant_operator(p, q);
     if (op == -1) {
       *ok = false;
+      printf("No dominant operator\n");
       return 0;
     }
     int val1 = eval(p, op - 1, ok);
@@ -226,7 +228,6 @@ uint32_t eval(int p, int q, bool *ok) {
 #ifdef DEBUG
     printf("eval: VAL1:%d OP:%d VAL2%d\n", val1, tokens[op].type, val2);
 #endif
-    *ok = true;
     switch (tokens[op].type) {
     case TK_PLUS:
       return val1 + val2;
@@ -237,7 +238,7 @@ uint32_t eval(int p, int q, bool *ok) {
     case TK_DIVIDE:
       return val1 / val2;
     default:
-      panic("Bad operator");
+      panic("Not a valid operator");
     }
   }
 }
@@ -248,5 +249,6 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
+  *success = true;
   return eval(0, nr_token - 1, success);
 }
