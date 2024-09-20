@@ -17,7 +17,5 @@ vaddr_t exec_once(void) {
   isa_exec(&decinfo.seq_pc);
   update_pc();
 
-  check_wp();
-
   return decinfo.seq_pc;
 }
