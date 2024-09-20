@@ -18,7 +18,6 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
   for (int i = 0; i < 32; i++) {
     if (strcmp(regsl[i], s) == 0) {
       *success = true;
-      printf("reg_l(%d) = 0x%08x\n", i, reg_l(i));
       return reg_l(i);
     }
   }
