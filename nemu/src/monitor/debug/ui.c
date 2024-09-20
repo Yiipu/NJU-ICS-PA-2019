@@ -6,7 +6,9 @@
 
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <stdint.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 void cpu_exec(uint64_t);
 
@@ -77,9 +79,9 @@ static int cmd_info(char *args) {
 
 static int cmd_p(char *args) {
   bool ok = false;
-  int eval = expr(args, &ok);
+  uint32_t eval = expr(args, &ok);
   if (ok) {
-    printf("%d\n", eval);
+    printf("%u\n", eval);
     return 0;
   } else {
     return -1;

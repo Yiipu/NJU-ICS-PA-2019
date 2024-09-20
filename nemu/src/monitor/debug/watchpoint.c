@@ -74,8 +74,8 @@ void check_wp() {
     if (new_value != wp->value) {
       changed = true;
       printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
-      printf("Old value = %d\n", wp->value);
-      printf("New value = %d\n", new_value);
+      printf("Old value = %u\n", wp->value);
+      printf("New value = %u\n", new_value);
       wp->value = new_value;
     }
   }
