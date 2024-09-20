@@ -168,6 +168,13 @@ static int dominant_operator(int p, int q) {
         op_priority = 3;
       }
       break;
+    case TK_EQ:
+      if (op_in_parentheses == 0 && op_priority < 4) {
+        // 等于
+        op = i;
+        op_priority = 4;
+      }
+      break;
     case TK_MULTIPLY:
       if (CANBE_MONOOP(i) && op_in_parentheses == 0 && op_priority < 1) {
         // 取地址
@@ -288,6 +295,8 @@ static uint32_t eval(int p, int q, bool *ok) {
     printf("eval: VAL1:%d OP:%d VAL2%d\n", val1, tokens[op].type, val2);
 #endif
     switch (tokens[op].type) {
+    case TK_EQ:
+      return val1 == val2;
     case TK_PLUS:
       return val1 + val2;
     case TK_MINUS:
