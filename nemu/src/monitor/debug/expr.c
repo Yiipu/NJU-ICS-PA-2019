@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+#define TOKEN_NUM 32768
+
 enum {
   TK_NOTYPE = 256,
   TK_EQ,
@@ -62,10 +64,10 @@ typedef struct token {
 
 typedef struct stack {
   int top;
-  int data[32]; // 32 是 tokens[] 的长度
+  int data[TOKEN_NUM];
 } Stack;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[TOKEN_NUM] __attribute__((used)) = {};
 static int nr_token __attribute__((used)) = 0;
 
 static bool make_token(char *e) {

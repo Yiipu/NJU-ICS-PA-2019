@@ -6,7 +6,7 @@
 #include <time.h>
 
 // this should be enough
-#define BUFFER_SIZE 128
+#define BUFFER_SIZE 32768
 static char buf[BUFFER_SIZE];
 static int pos = 0;
 void gen_rand_expr();
@@ -43,6 +43,12 @@ void gen_rand_expr() {
     gen_num();
     return;
   }
+
+  // 插入空格
+  if (rand() % 3 == 0) {
+    buf[pos++] = ' ';
+  }
+
   int choice = rand() % 3;
   switch (choice) {
   case 0:
