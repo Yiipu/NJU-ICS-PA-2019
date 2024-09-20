@@ -119,9 +119,8 @@ static bool make_token(char *e) {
           tokens[nr_token].str[substr_len] = '\0';
           nr_token++;
 #ifdef DEBUG
-          printf("tokens[%d].type = %d, tokens[%d].str = %s\n", nr_token - 1,
-                 tokens[nr_token - 1].type, nr_token - 1,
-                 tokens[nr_token - 1].str);
+          Log("got token at %d: type = %d, str = %s\n", nr_token - 1,
+              tokens[nr_token - 1].type, tokens[nr_token - 1].str);
 #endif
         }
 
@@ -292,7 +291,7 @@ static uint32_t eval(int p, int q, bool *ok) {
     int val1 = eval(p, op - 1, ok);
     int val2 = eval(op + 1, q, ok);
 #ifdef DEBUG
-    printf("eval: VAL1:%d OP:%d VAL2%d\n", val1, tokens[op].type, val2);
+    Log("read: %u %d %u\n", val1, tokens[op].type, val2);
 #endif
     switch (tokens[op].type) {
     case TK_EQ:
