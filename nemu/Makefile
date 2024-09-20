@@ -81,6 +81,9 @@ gdb: run-env
 	$(call git_commit, "gdb")
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
 
+count:
+	@find . -name '*.c' -o -name '*.h' | xargs grep -v '^\s*$$' | wc -l
+
 clean:
 	-rm -rf $(BUILD_DIR)
 	$(MAKE) -C tools/gen-expr clean
