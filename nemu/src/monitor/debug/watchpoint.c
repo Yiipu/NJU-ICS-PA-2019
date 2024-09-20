@@ -6,6 +6,32 @@
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
+WP* new_wp() {
+  if (free_ == NULL) {
+    panic("watchpoint pool is full");
+  }
+  WP *wp = free_;
+  free_ = free_->next;
+  wp->next = head;
+  head = wp;
+  return wp;
+}
+
+void free_wp(WP *wp) {
+  WP *p;
+  if (head == wp) {
+    head = head->next;
+  } else {
+    for (p = head; p != NULL && p->next != wp; p = p->next);
+    if (p == NULL) {
+      panic("watchpoint not in list");
+    }
+    p->next = wp->next;
+  }
+  wp->next = free_;
+  free_ = wp;
+}
+
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
