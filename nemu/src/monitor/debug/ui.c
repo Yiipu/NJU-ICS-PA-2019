@@ -75,7 +75,17 @@ static int cmd_info(char *args) {
   return 0;
 }
 
-static int cmd_p(char *args) { panic("TODO: implement `p`"); }
+static int cmd_p(char *args) {
+  bool ok = false;
+  int eval = expr(args, &ok);
+  if (ok) {
+    printf("%d\n", eval);
+    return 0;
+  } else {
+    printf("Invalid expression\n");
+    return -1;
+  }
+}
 
 static int cmd_x(char *args) { panic("TODO: implement `x`"); }
 
