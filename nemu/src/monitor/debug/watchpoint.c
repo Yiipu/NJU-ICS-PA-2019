@@ -100,4 +100,5 @@ int remove_wp(int NO) {
     }
   }
   printf("No watchpoint with number %d\n", NO);
+  return -1;
 }
