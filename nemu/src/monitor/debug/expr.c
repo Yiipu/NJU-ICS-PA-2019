@@ -108,9 +108,12 @@ static bool make_token(char *e) {
         case TK_NOTYPE:
           break;
         default:
+          if (substr_len >= sizeof(tokens[nr_token].str)) {
+            fprintf(stderr, "Token too long at position %d\n", position);
+            return false;
+          }
           tokens[nr_token].type = rules[i].token_type;
-          strncpy(tokens[nr_token].str, substr_start,
-                  substr_len); // 暂时先不管溢出
+          strncpy(tokens[nr_token].str, substr_start, substr_len);
           tokens[nr_token].str[substr_len] = '\0';
           nr_token++;
 #ifdef DEBUG
@@ -125,7 +128,7 @@ static bool make_token(char *e) {
     }
 
     if (i == NR_REGEX) {
-      printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
+      printf("no match at position %d %s %*.s^\n", position, e, position, "");
       return false;
     }
   }
