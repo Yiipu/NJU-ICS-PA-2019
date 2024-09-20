@@ -240,7 +240,7 @@ static uint32_t eval(int p, int q, bool *ok) {
     case TK_HEX:
       return strtol(tokens[p].str, NULL, 16);
     case TK_REG: {
-      if (strcmp(tokens[p].str, "$pc") == 0) {
+      if (strcmp(tokens[p].str, "pc") == 0) {
         return cpu.pc;
       }
       int val = isa_reg_str2val(tokens[p].str, ok);
