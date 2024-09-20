@@ -133,6 +133,7 @@ static bool make_token(char *e) {
 }
 
 // 返回 p 到 q 之间的主运算符的下标
+// 主运算符：最后被计算的运算符
 int dominant_operator(int p, int q) {
   int op = -1;
   int op_priority = 0;
@@ -148,14 +149,25 @@ int dominant_operator(int p, int q) {
       break;
     case TK_PLUS:
     case TK_MINUS:
-      if (op_in_parentheses == 0 && op_priority < 2) {
-        op = i;
-        op_priority = 1;
+      if (op_in_parentheses == 0) {
+        if (i == p || (tokens[i - 1].type != TK_DECIMAL &&
+                       tokens[i - 1].type != TK_RPAREN)) {
+          // 负号
+          if (op_priority < 1) {
+            op = i;
+            op_priority = 1;
+          }
+        } else if (op_priority < 3) {
+          // 加减
+          op = i;
+          op_priority = 3;
+        }
       }
       break;
     case TK_MULTIPLY:
     case TK_DIVIDE:
-      if (op_in_parentheses == 0 && op_priority < 1) {
+      if (op_in_parentheses == 0 && op_priority < 2) {
+        // 乘除
         op = i;
         op_priority = 2;
       }
@@ -223,6 +235,11 @@ uint32_t eval(int p, int q, bool *ok) {
       *ok = false;
       printf("No dominant operator\n");
       return 0;
+    } else if (tokens[op].type == TK_MINUS &&
+               (op == p || (tokens[op - 1].type != TK_DECIMAL &&
+                            tokens[op - 1].type != TK_RPAREN))) {
+      // 处理负号
+      return -eval(op + 1, q, ok);
     }
     int val1 = eval(p, op - 1, ok);
     int val2 = eval(op + 1, q, ok);

@@ -82,7 +82,6 @@ static int cmd_p(char *args) {
     printf("%d\n", eval);
     return 0;
   } else {
-    printf("Invalid expression\n");
     return -1;
   }
 }
