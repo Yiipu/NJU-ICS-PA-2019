@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "monitor/expr.h"
+#include "monitor/monitor.h"
 
 typedef struct watchpoint {
   int NO;
@@ -13,14 +14,17 @@ typedef struct watchpoint {
 
 } WP;
 
-
-// 从空闲链表中取出一个监视点
-static WP* new_wp();
-
-// 将监视点 wp 放回空闲链表
-static void free_wp(WP *wp);
-
 // 添加监视点
-bool add_wp(char *args);
+int add_wp(char *args);
+
+// 检查监视点是否变化，
+// 如果变化则打印监视点信息并暂停程序
+void check_wp();
+
+// 打印所有监视点信息
+void wps_display();
+
+// 移除监视点
+int remove_wp(int NO);
 
 #endif

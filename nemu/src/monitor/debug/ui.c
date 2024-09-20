@@ -64,7 +64,7 @@ static int cmd_info(char *args) {
     break;
   }
   case 'w': {
-    panic("TODO: implement `info w`");
+    wps_display();
     break;
   }
   default: {
@@ -88,11 +88,12 @@ static int cmd_p(char *args) {
 
 static int cmd_x(char *args) { panic("TODO: implement `x`"); }
 
-static int cmd_w(char *args) {
-  return add_wp(args);
-}
+static int cmd_w(char *args) { return add_wp(args); }
 
-static int cmd_d(char *args) { panic("TODO: implement `d`"); }
+static int cmd_d(char *args) {
+  int N = atoi(args);
+  return remove_wp(N);
+}
 
 // CLI 的命令表，在这里添加命令和命令处理函数
 static struct {

@@ -47,7 +47,7 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
-bool add_wp(char *args) {
+int add_wp(char *args) {
   WP *wp = new_wp();
   bool ok = false;
   memcpy(wp->expr, args, strlen(args) + 1);
@@ -55,7 +55,49 @@ bool add_wp(char *args) {
   wp->value = expr(args, &ok);
   if (!ok) {
     free_wp(wp);
-    return false;
+    return -1;
   }
-  return true;
+  return 0;
+}
+
+void check_wp() {
+  WP *wp;
+  bool changed = false;
+  for (wp = head; wp != NULL; wp = wp->next) {
+    bool ok = false;
+    uint32_t new_value = expr(wp->expr, &ok);
+    if (!ok) {
+      changed = true;
+      printf("Invalid expression: %s\n", wp->expr);
+      continue;
+    }
+    if (new_value != wp->value) {
+      changed = true;
+      printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
+      printf("Old value = %d\n", wp->value);
+      printf("New value = %d\n", new_value);
+      wp->value = new_value;
+    }
+  }
+  if (changed) {
+    nemu_state.state = NEMU_STOP;
+  }
+}
+
+void wps_display() {
+  WP *wp;
+  for (wp = head; wp != NULL; wp = wp->next) {
+    printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
+  }
+}
+
+int remove_wp(int NO) {
+  WP *wp;
+  for (wp = head; wp != NULL; wp = wp->next) {
+    if (wp->NO == NO) {
+      free_wp(wp);
+      return 0;
+    }
+  }
+  printf("No watchpoint with number %d\n", NO);
 }
