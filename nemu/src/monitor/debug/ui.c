@@ -88,7 +88,26 @@ static int cmd_p(char *args) {
   }
 }
 
-static int cmd_x(char *args) { panic("TODO: implement `x`"); }
+static int cmd_x(char *args) {
+  char *arg1 = strtok(NULL, " ");
+  char *arg2 = strtok(NULL, " ");
+  if (arg1 == NULL || arg2 == NULL) {
+    printf("x N EXPR: scan memory starting from the address evaluated from EXPR\n");
+    return 0;
+  }
+  int N = atoi(arg1);
+  bool ok = false;
+  uint32_t addr = expr(arg2, &ok);
+  if (ok) {
+    for (int i = 0; i < N; i++) {
+      printf("0x%08x: 0x%08x\n", addr, vaddr_read(addr, 4));
+      addr += 4;
+    }
+    return 0;
+  } else {
+    return -1;
+  }
+}
 
 static int cmd_w(char *args) { return add_wp(args); }
 

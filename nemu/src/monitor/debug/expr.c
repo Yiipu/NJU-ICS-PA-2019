@@ -273,7 +273,7 @@ static uint32_t eval(int p, int q, bool *ok) {
         printf("Invalid address\n");
         return 0;
       }
-      return 0; // TODO
+      return vaddr_read(addr, 4);
     }
     default:
       break;
