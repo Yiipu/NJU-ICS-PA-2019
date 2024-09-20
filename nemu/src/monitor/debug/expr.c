@@ -208,6 +208,7 @@ uint32_t eval(int p, int q, bool *ok) {
      * For now this token should be a number.
      * Return the value of the number.
      */
+    *ok = true;
     return atoi(tokens[p].str);
   } else if (check_parentheses(p, q) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
@@ -225,6 +226,7 @@ uint32_t eval(int p, int q, bool *ok) {
 #ifdef DEBUG
     printf("eval: VAL1:%d OP:%d VAL2%d\n", val1, tokens[op].type, val2);
 #endif
+    *ok = true;
     switch (tokens[op].type) {
     case TK_PLUS:
       return val1 + val2;
