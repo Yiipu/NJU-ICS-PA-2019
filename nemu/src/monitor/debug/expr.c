@@ -1,5 +1,5 @@
-#include "nemu.h"
 #include "monitor/expr.h"
+#include "nemu.h"
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -7,6 +7,8 @@
 #include <regex.h>
 #include <stdlib.h>
 #include <sys/types.h>
+
+int isa_reg_str2val(const char *, bool *);
 
 #define CANBE_MONOOP(i)                                                        \
   (i == p ||                                                                   \
@@ -99,14 +101,12 @@ static bool make_token(char *e) {
             rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
 
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
-
         switch (rules[i].token_type) {
         case TK_NOTYPE:
           break;
+        case TK_REG:
+          substr_start++;
+          substr_len--;
         default:
           if (substr_len >= sizeof(tokens[nr_token].str)) {
             fprintf(stderr, "Token too long at position %d\n", position);
@@ -237,8 +237,13 @@ static uint32_t eval(int p, int q, bool *ok) {
       return atoi(tokens[p].str);
     case TK_HEX:
       return strtol(tokens[p].str, NULL, 16);
-    case TK_REG:
-      return 0; // TODO
+    case TK_REG: {
+      int val = isa_reg_str2val(tokens[p].str, ok);
+      if (!*ok) {
+        printf("Invalid register\n");
+      }
+      return val;
+    }
     default:
       *ok = false;
       printf("Invalid token\n");

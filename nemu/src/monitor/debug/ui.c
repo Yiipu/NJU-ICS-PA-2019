@@ -51,7 +51,7 @@ static int cmd_si(char *args) {
   return 0;
 }
 
-// info { r | w } 打印寄存器状态
+// info { r | w } 打印寄存器状态或监视点信息
 static int cmd_info(char *args) {
   if (args == NULL) {
     printf("info r: print register status\n");
