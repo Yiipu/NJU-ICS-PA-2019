@@ -46,7 +46,7 @@ static struct rule {
     {"0|[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
     {"0x[0-9a-fA-F]+", TK_HEX},    // 十六进制整数
 #if __ISA__ == riscv32
-    {"\\$(?:0|ra|sp|gp|tp|t[0-6]|s[0-9]|a[0-7]|s1[0-1])", TK_REG}, // 寄存器
+    {"\\$$0|$[a-z0-9+]", TK_REG}, // 寄存器
 #endif
     {"==", TK_EQ} // equal
 };
