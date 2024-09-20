@@ -107,14 +107,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
         case TK_NOTYPE:
           break;
-        case TK_DECIMAL:
-        case TK_PLUS:
-        case TK_MINUS:
-        case TK_MULTIPLY:
-        case TK_DIVIDE:
-        case TK_LPAREN:
-        case TK_RPAREN:
-        case TK_EQ:
+        default:
           tokens[nr_token].type = rules[i].token_type;
           strncpy(tokens[nr_token].str, substr_start,
                   substr_len); // 暂时先不管溢出
@@ -125,10 +118,6 @@ static bool make_token(char *e) {
                  tokens[nr_token - 1].type, nr_token - 1,
                  tokens[nr_token - 1].str);
 #endif
-          break;
-        default:
-          panic("Not a valid token type");
-          break;
         }
 
         break;
