@@ -43,8 +43,8 @@ static struct rule {
     {"/", TK_DIVIDE},              // /
     {"\\(", TK_LPAREN},            // (
     {"\\)", TK_RPAREN},            // )
-    {"0|[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
     {"0x[0-9a-fA-F]+", TK_HEX},    // 十六进制整数
+    {"0|[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
 #if __ISA__ == riscv32
     {"\\$\\$0|\\$[a-z0-9]+", TK_REG}, // 寄存器
 #endif
