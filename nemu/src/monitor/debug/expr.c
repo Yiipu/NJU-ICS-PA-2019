@@ -8,17 +8,25 @@
 #include <sys/types.h>
 
 #define TOKEN_NUM 32768
+#define CANBE_MONOOP(i)                                                        \
+  (i == p ||                                                                   \
+   (tokens[i - 1].type != TK_DECIMAL && tokens[i - 1].type != TK_RPAREN))
 
 enum {
   TK_NOTYPE = 256,
   TK_EQ,
   TK_DECIMAL,  // 十进制整数
+  TK_HEX,      // 十六进制整数
+  TK_REG,      // 寄存器
   TK_PLUS,     // +
   TK_MINUS,    // -
   TK_MULTIPLY, // *
   TK_DIVIDE,   // /
   TK_LPAREN,   // (
-  TK_RPAREN    // )
+  TK_RPAREN,   // )
+
+  TK_NEG,  // 负号
+  TK_DEREF // 取地址
 };
 
 static struct rule {
@@ -34,6 +42,8 @@ static struct rule {
     {"\\(", TK_LPAREN},            // (
     {"\\)", TK_RPAREN},            // )
     {"0|[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
+    {"0x[0-9a-fA-F]+", TK_HEX},    // 十六进制整数
+    {"\\$[a-zA-Z]+", TK_REG},      // 寄存器
     {"==", TK_EQ}                  // equal
 };
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]))
@@ -149,24 +159,29 @@ int dominant_operator(int p, int q) {
     case TK_RPAREN:
       op_in_parentheses--;
       break;
-    case TK_PLUS:
     case TK_MINUS:
-      if (op_in_parentheses == 0) {
-        if (i == p || (tokens[i - 1].type != TK_DECIMAL &&
-                       tokens[i - 1].type != TK_RPAREN)) {
-          // 负号
-          if (op_priority < 1) {
-            op = i;
-            op_priority = 1;
-          }
-        } else if (op_priority < 3) {
-          // 加减
-          op = i;
-          op_priority = 3;
-        }
+      if (CANBE_MONOOP(i) && op_priority < 1) {
+        // 负号
+        tokens[i].type = TK_NEG;
+        op = i;
+        op_priority = 1;
+        break;
+      }
+    case TK_PLUS:
+      if (op_in_parentheses == 0 && op_priority < 3) {
+        // 加减
+        op = i;
+        op_priority = 3;
       }
       break;
     case TK_MULTIPLY:
+      if (CANBE_MONOOP(i) && op_in_parentheses == 0 && op_priority < 1) {
+        // 取地址
+        tokens[i].type = TK_DEREF;
+        op = i;
+        op_priority = 1;
+        break;
+      }
     case TK_DIVIDE:
       if (op_in_parentheses == 0 && op_priority < 2) {
         // 乘除
@@ -225,7 +240,18 @@ uint32_t eval(int p, int q, bool *ok) {
      * For now this token should be a number.
      * Return the value of the number.
      */
-    return atoi(tokens[p].str);
+    switch (tokens[p].type) {
+    case TK_DECIMAL:
+      return atoi(tokens[p].str);
+    case TK_HEX:
+      return strtol(tokens[p].str, NULL, 16);
+    case TK_REG:
+      return 0; // TODO
+    default:
+      *ok = false;
+      printf("Invalid token\n");
+      return 0;
+    }
   } else if (check_parentheses(p, q) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses.
@@ -237,12 +263,23 @@ uint32_t eval(int p, int q, bool *ok) {
       *ok = false;
       printf("No dominant operator\n");
       return 0;
-    } else if (tokens[op].type == TK_MINUS &&
-               (op == p || (tokens[op - 1].type != TK_DECIMAL &&
-                            tokens[op - 1].type != TK_RPAREN))) {
-      // 处理负号
-      return -eval(op + 1, q, ok);
     }
+
+    switch (tokens[op].type) {
+    case TK_NEG:
+      return -eval(op + 1, q, ok);
+    case TK_DEREF: {
+      int addr = eval(op + 1, q, ok);
+      if (!*ok) {
+        printf("Invalid address\n");
+        return 0;
+      }
+      return 0; // TODO
+    }
+    default:
+      break;
+    }
+
     int val1 = eval(p, op - 1, ok);
     int val2 = eval(op + 1, q, ok);
 #ifdef DEBUG
@@ -256,6 +293,11 @@ uint32_t eval(int p, int q, bool *ok) {
     case TK_MULTIPLY:
       return val1 * val2;
     case TK_DIVIDE:
+      if (val2 == 0) {
+        *ok = false;
+        printf("Divide by zero\n");
+        return 0;
+      }
       return val1 / val2;
     default:
       panic("Not a valid operator");
