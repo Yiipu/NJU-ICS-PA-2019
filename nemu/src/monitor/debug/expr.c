@@ -24,15 +24,15 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-    {" +", TK_NOTYPE},           // 空格串
-    {"\\+", TK_PLUS},            // +
-    {"-", TK_MINUS},             // -
-    {"\\*", TK_MULTIPLY},        // *
-    {"/", TK_DIVIDE},            // /
-    {"\\(", TK_LPAREN},          // (
-    {"\\)", TK_RPAREN},          // )
+    {" +", TK_NOTYPE},             // 空格串
+    {"\\+", TK_PLUS},              // +
+    {"-", TK_MINUS},               // -
+    {"\\*", TK_MULTIPLY},          // *
+    {"/", TK_DIVIDE},              // /
+    {"\\(", TK_LPAREN},            // (
+    {"\\)", TK_RPAREN},            // )
     {"0|[1-9][0-9]*", TK_DECIMAL}, // 十进制整数
-    {"==", TK_EQ}                // equal
+    {"==", TK_EQ}                  // equal
 };
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]))
 
@@ -180,6 +180,7 @@ bool check_parentheses(int p, int q) {
   s.top = -1;
 
   // 去掉最外层的括号，用栈检查是否匹配
+  p++;
   while (p < q) {
     switch (tokens[p].type) {
     case TK_LPAREN:
