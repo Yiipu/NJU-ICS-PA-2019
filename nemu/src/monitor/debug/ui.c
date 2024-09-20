@@ -88,7 +88,9 @@ static int cmd_p(char *args) {
 
 static int cmd_x(char *args) { panic("TODO: implement `x`"); }
 
-static int cmd_w(char *args) { panic("TODO: implement `w`"); }
+static int cmd_w(char *args) {
+  return add_wp(args);
+}
 
 static int cmd_d(char *args) { panic("TODO: implement `d`"); }
 

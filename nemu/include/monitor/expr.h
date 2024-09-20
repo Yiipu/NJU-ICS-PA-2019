@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+#define TOKEN_NUM 32768
+
 uint32_t expr(char *, bool *);
 
 #endif

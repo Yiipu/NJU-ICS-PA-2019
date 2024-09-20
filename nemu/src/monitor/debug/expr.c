@@ -1,4 +1,5 @@
 #include "nemu.h"
+#include "monitor/expr.h"
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -7,7 +8,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-#define TOKEN_NUM 32768
 #define CANBE_MONOOP(i)                                                        \
   (i == p ||                                                                   \
    (tokens[i - 1].type != TK_DECIMAL && tokens[i - 1].type != TK_RPAREN))
@@ -138,7 +138,7 @@ static bool make_token(char *e) {
 
 // 返回 p 到 q 之间的主运算符的下标
 // 主运算符：最后被计算的运算符
-int dominant_operator(int p, int q) {
+static int dominant_operator(int p, int q) {
   int op = -1;
   int op_priority = 0;
   int op_in_parentheses = 0;
@@ -192,7 +192,7 @@ int dominant_operator(int p, int q) {
 // 要求调用者保证 p < q
 // 返回 true：最左和最右是括号且匹配
 // 返回 false：最左和最右不都是括号 或 不匹配
-bool check_parentheses(int p, int q) {
+static bool check_parentheses(int p, int q) {
   if (tokens[p].type != TK_LPAREN || tokens[q].type != TK_RPAREN) {
     return false;
   }
@@ -221,7 +221,7 @@ bool check_parentheses(int p, int q) {
   return s.top == -1;
 }
 
-uint32_t eval(int p, int q, bool *ok) {
+static uint32_t eval(int p, int q, bool *ok) {
   if (p > q) {
     /* Bad expression */
     *ok = false;
