@@ -1,12 +1,9 @@
 #include "cpu/exec.h"
 
-make_EHelper(jal) {
-    // 保存返回地址到目标寄存器
-    rtl_li(&t0, cpu.pc + 4);
-    rtl_sr(id_dest->reg, &t0, 4);
-
-    // 跳转到目标地址
-    rtl_j(cpu.pc + id_src->val);
-
+make_EHelper(jal){
+    rtl_j(decinfo.seq_pc + id_src->val);
+    rtl_add(&id_dest->val, &decinfo.seq_pc, &id_src->val);
+    rtl_sr(id_dest->reg, &id_dest->val, 4);
+    
     print_asm_template2(jal);
 }
