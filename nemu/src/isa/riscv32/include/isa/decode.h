@@ -12,7 +12,7 @@ typedef union {
     uint32_t rs2       : 5;
     uint32_t funct7    : 7;
   };
-  // I-type，暂时不处理有 shamet 的情况
+  // I-type，执行时处理 shamt
   struct {
     // opcode rd funct3 rs1
     uint32_t pad0      :20;

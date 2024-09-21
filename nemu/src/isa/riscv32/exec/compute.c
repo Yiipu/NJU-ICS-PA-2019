@@ -121,6 +121,7 @@ make_EHelper(xori) {
 
 make_EHelper(srlai) {
   bool is_alg = decinfo.src2.imm >> 5;
+  id_src2->imm &= 0x1f;
   if (is_alg) {
     rtl_sar(&t0, &id_src->val, &id_src2->imm);
   } else {
