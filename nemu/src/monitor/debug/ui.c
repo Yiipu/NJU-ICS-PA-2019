@@ -81,7 +81,7 @@ static int cmd_p(char *args) {
   bool ok = false;
   uint32_t eval = expr(args, &ok);
   if (ok) {
-    printf("%u\n", eval);
+    printf("0x%x\n", eval);
     return 0;
   } else {
     return -1;

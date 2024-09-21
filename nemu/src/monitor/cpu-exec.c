@@ -44,8 +44,6 @@ void cpu_exec(uint64_t n) {
   }
 
   for (; n > 0; n--) {
-    check_wp();
-
     __attribute__((unused)) vaddr_t ori_pc = cpu.pc;
 
     /* Execute one instruction, including instruction fetch,
@@ -69,7 +67,7 @@ void cpu_exec(uint64_t n) {
     log_clearbuf();
 
     /* TODO: check watchpoints here. */
-
+    check_wp();
 #endif
 
     g_nr_guest_instr++;
