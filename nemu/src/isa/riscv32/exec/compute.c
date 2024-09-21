@@ -16,8 +16,8 @@ make_EHelper(addi) {
 
 make_EHelper(auipc) {
 
-  int32_t pc_hi = decinfo.seq_pc & 0xfffff000;
-  int32_t dest = pc_hi + id_src->imm;
+  // int32_t pc_hi = decinfo.seq_pc & 0xfffff000;
+  int32_t dest = decinfo.seq_pc + id_src->imm;
 
   printf("saving %x to %d\n", dest, id_dest->reg);
 
