@@ -15,14 +15,7 @@ make_EHelper(addi) {
 }
 
 make_EHelper(auipc) {
-
-  // int32_t pc_hi = decinfo.seq_pc & 0xfffff000;
-  int32_t dest = cpu.pc + id_src->imm ;
-
-  printf("saving %x to %d\n", dest, id_dest->reg);
-
-  rtl_addi(&id_dest->reg, 0, dest);
-  printf("we got here!\n");
+  rtl_addi(&id_dest->reg, &cpu.pc, id_src->imm);
   rtl_sr(id_dest->reg, &id_dest->reg, 4);
   print_asm_template2(auipc);
 }
