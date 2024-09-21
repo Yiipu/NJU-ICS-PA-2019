@@ -92,7 +92,8 @@ static int cmd_x(char *args) {
   char *arg1 = strtok(NULL, " ");
   char *arg2 = strtok(NULL, " ");
   if (arg1 == NULL || arg2 == NULL) {
-    printf("x N EXPR: scan memory starting from the address evaluated from EXPR\n");
+    printf("x N EXPR: scan memory starting from the address evaluated from "
+           "EXPR\n");
     return 0;
   }
   int N = atoi(arg1);
@@ -191,9 +192,17 @@ void ui_mainloop(int is_batch_mode) {
     int i;
     for (i = 0; i < NR_CMD; i++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
+#ifdef DEBUG
+        int code = cmd_table[i].handler(args); 
+        if (code < 0) {
+          printf("Command exited with code %d\n", code);
+          break;
+        }
+#else
         if (cmd_table[i].handler(args) < 0) {
           return;
         }
+#endif
         break;
       }
     }

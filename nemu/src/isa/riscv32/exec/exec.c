@@ -5,6 +5,7 @@ static OpcodeEntry load_table [8] = {
   EMPTY, EMPTY, EXW(ld, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
+// make_EHelper(load) 展开为 void exec_load(vaddr_t *pc)
 static make_EHelper(load) {
   decinfo.width = load_table[decinfo.isa.instr.funct3].width;
   idex(pc, &load_table[decinfo.isa.instr.funct3]);
@@ -14,6 +15,7 @@ static OpcodeEntry store_table [8] = {
   EMPTY, EMPTY, EXW(st, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
+// static void exec_store(vaddr_t *pc)
 static make_EHelper(store) {
   decinfo.width = store_table[decinfo.isa.instr.funct3].width;
   idex(pc, &store_table[decinfo.isa.instr.funct3]);
