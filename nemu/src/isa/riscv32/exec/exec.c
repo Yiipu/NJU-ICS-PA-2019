@@ -135,9 +135,5 @@ void isa_exec(vaddr_t *pc) {
   decinfo.isa.instr.val = instr_fetch(pc, 4);
   // 不支持压缩指令，所有 opcode 低两位必须为 0b11
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
-  // 打印 val opcode6_2 funct3
-  printf("val: 0x%08x, opcode6_2: 0x%02x, funct3: 0x%02x\n",
-         decinfo.isa.instr.val, decinfo.isa.instr.opcode6_2,
-         decinfo.isa.instr.funct3);
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
