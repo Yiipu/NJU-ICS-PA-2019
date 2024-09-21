@@ -61,7 +61,7 @@ static OpcodeEntry opcode_table [32] = {
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY, EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-  /* b11 */ EMPTY, EMPTY, EX(nemu_trap), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  /* b11 */ EMPTY, EMPTY, EX(nemu_trap), IDEX(J, jal), EMPTY, EMPTY, EMPTY, EMPTY,
 };
 // clang-format on
 
@@ -70,6 +70,8 @@ void isa_exec(vaddr_t *pc) {
   // 不支持压缩指令，所有 opcode 低两位必须为 0b11
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
   // 打印 val opcode6_2 funct3
-  printf("val: 0x%08x, opcode6_2: 0x%02x, funct3: 0x%02x\n", decinfo.isa.instr.val, decinfo.isa.instr.opcode6_2, decinfo.isa.instr.funct3);
+  printf("val: 0x%08x, opcode6_2: 0x%02x, funct3: 0x%02x\n",
+         decinfo.isa.instr.val, decinfo.isa.instr.opcode6_2,
+         decinfo.isa.instr.funct3);
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
