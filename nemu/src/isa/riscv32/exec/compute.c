@@ -11,3 +11,9 @@ make_EHelper(addi) {
   
   print_asm_template3(addi);
 }
+
+make_EHelper(auipc){
+  rtl_addi(&id_dest->reg, &decinfo.seq_pc, id_src->val);
+
+  print_asm_template2(auipc);
+}
