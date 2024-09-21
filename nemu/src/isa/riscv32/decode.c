@@ -68,6 +68,14 @@ make_DHelper(R){
   print_Dop(id_src2->str, OP_STR_SIZE, "%s", reg_name(id_src2->reg, 4));
 }
 
+make_DHelper(B){
+  int32_t imm = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1) | (decinfo.isa.instr.simm12 << 13);
+  decode_op_i(id_src, imm, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rs1, true);
+
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", imm);
+}
+
 make_DHelper(ld) {
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);

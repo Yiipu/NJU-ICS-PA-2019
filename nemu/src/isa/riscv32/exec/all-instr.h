@@ -32,6 +32,12 @@ make_EHelper(remu);
 
 make_EHelper(jal);
 make_EHelper(jalr);
+make_EHelper(beq);
+make_EHelper(bne);
+make_EHelper(blt);
+make_EHelper(bge);
+make_EHelper(bltu);
+make_EHelper(bgeu);
 
 make_EHelper(ld);
 make_EHelper(st);
