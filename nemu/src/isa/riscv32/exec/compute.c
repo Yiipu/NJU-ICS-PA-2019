@@ -7,8 +7,7 @@ make_EHelper(lui) {
 }
 
 make_EHelper(addi) {
-  rtl_addi(&id_dest->val, &id_src->val, id_src2->imm);
-  rtl_sr(id_dest->reg, &id_dest->val, 4);
+  rtl_addi(&id_dest->reg, &id_src2->imm, id_src->val);
   
   print_asm_template3(addi);
 }

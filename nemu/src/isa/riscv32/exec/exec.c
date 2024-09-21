@@ -14,11 +14,10 @@
 111'b ANDI: AND Immediate
 */
 static OpcodeEntry imm_table [8] = {
-  EXW(addi, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+  EX(addi), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
 static make_EHelper(imm) {
-  decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
   idex(pc, &imm_table[decinfo.isa.instr.funct3]);
 }
 
@@ -59,7 +58,7 @@ static make_EHelper(store) {
 }
 
 static OpcodeEntry opcode_table [32] = {
-  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEXW(I, imm, 0), EMPTY, EMPTY, EMPTY,
+  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), EMPTY, EMPTY, EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
   /* b11 */ EMPTY, EMPTY, EX(nemu_trap), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,

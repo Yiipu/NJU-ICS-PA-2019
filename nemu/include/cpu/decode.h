@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-#define make_DHelper(name) void concat(decode_, name) (vaddr_t *pc)
-typedef void (*DHelper) (vaddr_t *);
+#define make_DHelper(name) void concat(decode_, name)(vaddr_t * pc)
+typedef void (*DHelper)(vaddr_t *);
 
 #define OP_STR_SIZE 40
 enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
@@ -26,8 +26,8 @@ typedef struct {
 
 typedef struct {
   uint32_t opcode;
-  uint32_t width;
-  vaddr_t seq_pc;  // sequential pc
+  uint32_t width; // 访存指令操作数宽度
+  vaddr_t seq_pc; // sequential pc
   bool is_jmp;
   vaddr_t jmp_pc;
   Operand src, dest, src2;
