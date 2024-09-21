@@ -1,3 +1,4 @@
+#include "cpu/decode.h"
 #include "cpu/exec.h"
 #include <stdint.h>
 
@@ -88,4 +89,56 @@ make_EHelper(sra) {
   rtl_sr(id_dest->reg, &t0, 4);
 
   print_asm_template3(sra);
+}
+
+make_EHelper(slli) {
+  rtl_shl(&t0, &id_src->val, &id_src2->imm);
+  rtl_sr(id_dest->reg, &t0, 4);
+
+  print_asm_template3(slli);
+}
+
+make_EHelper(slti) {
+  rtl_setrelop(RELOP_LT, &t0, &id_src->val, &id_src2->imm);
+  rtl_sr(id_dest->reg, &t0, 4);
+
+  print_asm_template3(slti);
+}
+
+make_EHelper(sltiu) {
+  rtl_setrelop(RELOP_LTU, &t0, &id_src->val, &id_src2->imm);
+  rtl_sr(id_dest->reg, &t0, 4);
+
+  print_asm_template3(sltiu);
+}
+
+make_EHelper(xori) {
+  rtl_xor(&t0, &id_src->val, &id_src2->imm);
+  rtl_sr(id_dest->reg, &t0, 4);
+
+  print_asm_template3(xori);
+}
+
+make_EHelper(srlai) {
+  bool is_alg = decinfo.src2.imm >> 5;
+  if (is_alg) {
+    rtl_sar(&t0, &id_src->val, &id_src2->imm);
+  } else {
+    rtl_shr(&t0, &id_src->val, &id_src2->imm);
+  }
+  rtl_sr(id_dest->reg, &t0, 4);
+}
+
+make_EHelper(ori) {
+  rtl_or(&t0, &id_src->val, &id_src2->imm);
+  rtl_sr(id_dest->reg, &t0, 4);
+
+  print_asm_template3(ori);
+}
+
+make_EHelper(andi) {
+  rtl_and(&t0, &id_src->val, &id_src2->imm);
+  rtl_sr(id_dest->reg, &t0, 4);
+
+  print_asm_template3(andi);
 }

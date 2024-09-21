@@ -51,12 +51,12 @@ static make_EHelper(reg) {
 010'b SLTI: Set Less Than Immediate
 011'b SLTIU: Set Less Than Immediate Unsigned
 100'b XORI: XOR Immediate
-101'b SRLI: Shift Right Logical Immediate
+101'b SRLI/SRAI: Shift Right Logical/Arithmetic Immediate
 110'b ORI: OR Immediate
 111'b ANDI: AND Immediate
 */
-static OpcodeEntry imm_table [8] = {
-  EX(addi), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+static OpcodeEntry imm_table[8] = {
+  EX(addi), EX(slli), EX(slti), EX(sltiu), EX(xori), EX(srlai), EX(ori), EX(andi)
 };
 // clang-format on
 

@@ -13,6 +13,13 @@ make_EHelper(or);
 make_EHelper(and);
 make_EHelper(sub);
 make_EHelper(sra);
+make_EHelper(slli);
+make_EHelper(slti);
+make_EHelper(sltiu);
+make_EHelper(xori);
+make_EHelper(srlai);
+make_EHelper(ori);
+make_EHelper(andi);
 
 make_EHelper(mul);
 make_EHelper(mulh);
