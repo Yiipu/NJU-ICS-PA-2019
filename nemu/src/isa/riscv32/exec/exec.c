@@ -61,6 +61,8 @@ static make_EHelper(reg) {
   case 0x0100000:
     idex(pc, reg_table + 16 + decinfo.isa.instr.funct3);
     break;
+  default:
+    Log("unrecognized funct7 = 0x%02x", decinfo.isa.instr.funct7);
   }
 }
 
