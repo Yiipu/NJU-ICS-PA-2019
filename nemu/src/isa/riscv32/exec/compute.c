@@ -99,14 +99,14 @@ make_EHelper(slli) {
 }
 
 make_EHelper(slti) {
-  rtl_setrelop(RELOP_LT, &t0, &id_src->val, &id_src2->imm);
+  rtl_setrelopi(RELOP_LT, &t0, &id_src->val, id_src2->imm);
   rtl_sr(id_dest->reg, &t0, 4);
 
   print_asm_template3(slti);
 }
 
 make_EHelper(sltiu) {
-  rtl_setrelop(RELOP_LTU, &t0, &id_src->val, &id_src2->imm);
+  rtl_setrelopi(RELOP_LTU, &t0, &id_src->val, id_src2->imm);
   rtl_sr(id_dest->reg, &t0, 4);
 
   print_asm_template3(sltiu);
