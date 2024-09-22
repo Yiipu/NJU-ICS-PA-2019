@@ -25,8 +25,12 @@ static inline make_DopHelper(r) {
 }
 
 make_DHelper(I) {
-  int32_t simm = decinfo.isa.instr.simm11_0;
-  simm = (simm << 20) >> 20;
+  int32_t imm = decinfo.isa.instr.simm11_0;
+
+  // sltiu 是无符号,在这里特判
+  if (decinfo.isa.instr.funct3 != 0b011) {
+    imm = (imm << 20) >> 20;
+  }
 
   decode_op_i(id_src2, simm, true);
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
