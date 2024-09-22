@@ -32,7 +32,7 @@ make_DHelper(I) {
     imm = (imm << 20) >> 20;
   }
 
-  decode_op_i(id_src2, simm, true);
+  decode_op_i(id_src2, imm, true);
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
 }
