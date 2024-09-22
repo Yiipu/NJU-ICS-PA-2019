@@ -6,7 +6,7 @@ make_EHelper(jal) {
 
   t0 = id_src->val + cpu.pc;
   rtl_j(t0);
-  print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", t0);
   print_asm_template2(jal);
 }
 
@@ -14,9 +14,10 @@ make_EHelper(jalr) {
   rtl_li(&t0, cpu.pc + 4);
   rtl_sr(id_dest->reg, &t0, 4);
 
-  t0 = id_src->val + cpu.pc;
+  t0 = id_src->val + id_src2->imm;
+  t0 = t0 & ~1;
   rtl_j(t0);
-  print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
+  print_Dop(id_src2->str, OP_STR_SIZE, "0x%x", t0);
   print_asm_template2(jalr);
 }
 
