@@ -99,7 +99,7 @@ static make_EHelper(imm) { idex(pc, &imm_table[decinfo.isa.instr.funct3]); }
 */
 static OpcodeEntry load_table [8] = {
   EXW(sld, 1), EXW(sld, 2), EXW(ld, 4), EMPTY, 
-  EXW(ld, 2),  EXW(ld, 1),  EXW(ld, 4), EMPTY
+  EXW(ld, 1),  EXW(ld, 2),  EXW(ld, 4), EMPTY
 };
 // clang-format on
 
