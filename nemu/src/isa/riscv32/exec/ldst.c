@@ -19,14 +19,15 @@ make_EHelper(sld){
     case 2: {
       rtl_shli(&s0, &s0, 16);
       rtl_sari(&s0, &s0, 16);
-      print_asm_template2(sh);
+      print_asm_template2(lh);
       break;
     }
     case 1: {
             rtl_shli(&s0, &s0, 8);
       rtl_sari(&s0, &s0, 8);
       print_asm_template2(lb); 
-      break;}
+      break;
+    }
     default: assert(0);
   }
 
