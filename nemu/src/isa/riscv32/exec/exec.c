@@ -98,7 +98,8 @@ static make_EHelper(imm) { idex(pc, &imm_table[decinfo.isa.instr.funct3]); }
 111'b Reserved
 */
 static OpcodeEntry load_table [8] = {
-  EXW(ld, 1), EXW(ld, 2), EXW(ld, 4), EMPTY, EXW(ld, 2), EXW(ld, 1), EXW(ld, 4), EMPTY
+  EXW(sld, 1), EXW(sld, 2), EXW(ld, 4), EMPTY, 
+  EXW(ld, 2),  EXW(ld, 1),  EXW(ld, 4), EMPTY
 };
 // clang-format on
 
@@ -116,7 +117,7 @@ static make_EHelper(load) {
 011'b SD: RV64 Store Double
 */
 static OpcodeEntry store_table [8] = {
-  EXW(st, 1), EXW(st, 2), EXW(st, 4), EMPTY, EXW(st, 1), EXW(st, 2), EXW(st, 4), EMPTY
+  EXW(st, 1), EXW(st, 2), EXW(st, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 // clang-format on
 

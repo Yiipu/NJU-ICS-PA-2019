@@ -41,6 +41,7 @@ make_EHelper(bgeu);
 
 make_EHelper(ld);
 make_EHelper(st);
+make_EHelper(sld);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);
