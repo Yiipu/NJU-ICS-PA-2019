@@ -240,3 +240,21 @@ nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x80100110
 + LD -> build/add-longlong-riscv32-nemu.elf
 + OBJCOPY -> build/add-longlong-riscv32-nemu.bin
 Building riscv32-nemu
+[1;34m[src/monitor/monitor.c,48,load_img] The image is /home/opal/repo/ics2019/nexus-am/tests/cputest/build/add-longlong-riscv32-nemu.bin[0m
+[1;34m[src/memory/memory.c,16,register_pmem] Add 'pmem' at [0x80000000, 0x87ffffff][0m
+[1;34m[src/monitor/monitor.c,20,welcome] Debug: [1;32mON[0m[0m
+[1;34m[src/monitor/monitor.c,21,welcome] If debug mode is on, A log file will be generated to record every instruction NEMU executes. This may lead to a large log file. If it is not necessary, you can turn it off in include/common.h.[0m
+[1;34m[src/monitor/monitor.c,28,welcome] Build time: 02:09:28, Sep 22 2024[0m
+Welcome to [1;41m[1;33mriscv32[0m-NEMU!
+For help, type "help"
+nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x80100138
+
+[1;34m[src/monitor/cpu-exec.c,30,monitor_statistic] total guest instructions = 1249[0m
+# Building dummy [riscv32-nemu] with AM_HOME {/home/opal/repo/ics2019/nexus-am}
++ CC tests/dummy.c
+# Building lib-am [riscv32-nemu]
+# Building lib-klib [riscv32-nemu]
+# Creating binary image [riscv32-nemu]
++ LD -> build/dummy-riscv32-nemu.elf
++ OBJCOPY -> build/dummy-riscv32-nemu.bin
+Building riscv32-nemu
