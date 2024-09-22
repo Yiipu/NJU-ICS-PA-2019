@@ -1,0 +1,7 @@
+# Building unalign [riscv32-nemu] with AM_HOME {/home/opal/repo/ics2019/nexus-am}
+# Building lib-am [riscv32-nemu]
+# Building lib-klib [riscv32-nemu]
+# Creating binary image [riscv32-nemu]
++ LD -> build/unalign-riscv32-nemu.elf
++ OBJCOPY -> build/unalign-riscv32-nemu.bin
+Building riscv32-nemu
