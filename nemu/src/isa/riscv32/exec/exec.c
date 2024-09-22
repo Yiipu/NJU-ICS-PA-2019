@@ -1,6 +1,7 @@
 #include "cpu/exec.h"
 #include "all-instr.h"
 
+OpcodeEntry empty = EMPTY; // 公用的 EMPTY 实例
 
 // clang-format off
 /*
@@ -52,17 +53,18 @@ static OpcodeEntry reg_table [24] = {
 
 static make_EHelper(reg) {
   switch (decinfo.isa.instr.funct7) {
-  case 0x0000000:
+  case 0x00:
     idex(pc, reg_table + decinfo.isa.instr.funct3);
     break;
-  case 0x0000001:
+  case 0x01:
     idex(pc, reg_table + 8 + decinfo.isa.instr.funct3);
     break;
-  case 0x0100000:
+  case 0x20:
     idex(pc, reg_table + 16 + decinfo.isa.instr.funct3);
     break;
   default:
     Log("unrecognized funct7 = 0x%02x", decinfo.isa.instr.funct7);
+    idex(pc, &empty);
   }
 }
 
