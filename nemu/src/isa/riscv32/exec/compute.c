@@ -124,8 +124,10 @@ make_EHelper(srlai) {
   id_src2->imm &= 0x1f;
   if (is_alg) {
     rtl_sar(&t0, &id_src->val, &id_src2->imm);
+    print_asm_template3(srai);
   } else {
     rtl_shr(&t0, &id_src->val, &id_src2->imm);
+    print_asm_template3(srli);
   }
   rtl_sr(id_dest->reg, &t0, 4);
 }
