@@ -1,4 +1,3 @@
-#include "string.h"
 #include "klib.h"
 #include <stddef.h>
 
@@ -48,18 +47,21 @@ int strncmp(const char *s1, const char *s2, size_t n) {
     if (s1[i] != s2[i])
       return s1[i] - s2[i];
   }
+  return 0;
 }
 
 void *memset(void *v, int c, size_t n) {
   while (n--) {
     *(char *)v = c;
   }
+  return v;
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
   while (n--) {
     *(char *)out = *(char *)in;
   }
+  return out;
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
@@ -70,6 +72,7 @@ int memcmp(const void *s1, const void *s2, size_t n) {
     s1 = (const char *)s1 + 1;
     s2 = (const char *)s2 + 1;
   }
+  return 0;
 }
 
 #endif
