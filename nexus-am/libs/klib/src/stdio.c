@@ -26,13 +26,13 @@ int printf(const char *fmt, ...) {
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-    return vsnprintf(out, 0, fmt, ap);
+    return vsnprintf(out, (size_t)-1, fmt, ap);
 }
 
 int sprintf(char *out, const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
-    int result = vsnprintf(out, 0, fmt, args);
+    int result = vsnprintf(out, (size_t)-1, fmt, args);
     va_end(args);
     return result;
 }
