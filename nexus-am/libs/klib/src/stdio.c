@@ -21,24 +21,29 @@ int vsnprintf(char * out, size_t n, const char * fmt, va_list ap) {
           val = 0 - val;
         }
         for (buf_len = 0; val; val /= 10, buf_len++) {
-          buf[buf_len] = NUM_CHAR[val % 10]; // 这里buf会是逆序的
+          buf[buf_len] = NUM_CHAR[val % 10];
         }
         for (int i = buf_len - 1; i >= 0; i--) {
           out[len++] = buf[i];
         }
         break;
-      } break; // case % 的break.
+      }
       case '\n':
         out[len++] = '\n';
         break;
       default:
         out[len++] = *fmt;
+        break;
       }
-      fmt++;
+      break;
+    default:
+      out[len++] = *fmt;
+      break;
     }
-    out[len] = '\0';
-    return len;
+    fmt++;
   }
+  out[len] = '\0';
+  return len;
 }
 
 int printf(const char * fmt, ...) {
