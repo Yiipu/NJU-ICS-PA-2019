@@ -13,7 +13,7 @@ submit:
 	STUID=$(STUID) STUNAME=$(STUNAME) bash -c "$$(curl -s https://course.cunok.cn:52443/pa/scripts/submit.sh)"
 
 info: 
-	STUID=$(STUID) STUNAME=$(STUNAME) bash -c "$$(curl -s https://course.cunok.cn:52443/pa/scripts/info.sh)"
+	STUID=$(STUID) STUNAME=$(STUNAME) bash -c "$$(curl -s https://course1.istratus.cn/pa/scripts/info.sh)"
 
 setup: 
 	STUID=$(STUID) STUNAME=$(STUNAME) bash -c "$$(curl -s https://course.cunok.cn:52443/pa/scripts/setup.sh)"
