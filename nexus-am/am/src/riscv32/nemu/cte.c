@@ -9,10 +9,10 @@ _Context * __am_irq_handle(_Context * c) {
 
   printf("%d %d %d\n", c->cause, c->status, c->epc);
   for (int i = 0; i < 32; i++) {
-    printf("%d ", c->gpr[i]);
     if (i % 4 == 0) {
       printf("\n");
     }
+    printf("%d ", c->gpr[i]);
   }
 
   if (user_handler) {
