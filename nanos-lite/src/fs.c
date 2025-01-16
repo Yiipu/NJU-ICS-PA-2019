@@ -57,9 +57,11 @@ static inline void fd_check(int fd) {
 int fs_open(const char * pathname, int flags, int mode) {
   for (int i = 0; i < NR_FILES; i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
+      printf("%d", i);
       return i;
     }
   }
+  panic("Can't find file");
   assert(0 && "Can't find file");
 }
 
