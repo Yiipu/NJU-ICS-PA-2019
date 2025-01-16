@@ -25,6 +25,4 @@
 
 #define TODO() panic("please implement me")
 
-volatile static int dummy;
-
 #endif
