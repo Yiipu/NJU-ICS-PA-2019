@@ -33,7 +33,6 @@ int main() {
   Log("Finish initialization");
 
 #ifdef HAS_CTE
-  Log("前往 _yield...");
   _yield();
 #endif
 
