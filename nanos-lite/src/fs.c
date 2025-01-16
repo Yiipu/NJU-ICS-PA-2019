@@ -57,11 +57,10 @@ static inline void fd_check(int fd) {
 int fs_open(const char * pathname, int flags, int mode) {
   for (int i = 0; i < NR_FILES; i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
-      printf("%d", i);
+      printf("%d\n", i);
       return i;
     }
   }
-  panic("Can't find file");
   assert(0 && "Can't find file");
 }
 
@@ -127,7 +126,6 @@ int fs_close(int fd) {
 }
 
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
   int fb = fs_open("/dev/fb", 0, 0);
   file_table[fb].size = screen_width() * screen_height() * sizeof(uint32_t);
   fb = fs_open("/dev/fbsync", 0, 0);
