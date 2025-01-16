@@ -1,6 +1,8 @@
 #ifndef __RTL_RTL_H__
 #define __RTL_RTL_H__
 
+volatile static int dummy;
+
 #include "nemu.h"
 #include "rtl/c_op.h"
 #include "rtl/relop.h"
