@@ -47,6 +47,7 @@ _Context * do_syscall(_Context * c) {
     c->GPRx = sys_write(a[1], (void *)(a[2]), a[3]);
     break;
   case SYS_read:
+    printf("SYS_read");
     c->GPRx = sys_read(a[1], (void *)(a[2]), a[3]);
     break;
   case SYS_lseek:
