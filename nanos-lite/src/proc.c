@@ -24,7 +24,7 @@ void init_proc() {
   switch_boot_pcb();
 
   Log("Initializing processes...");
-  naive_uload(NULL, "/share/games/nes/mario.nes");
+  naive_uload(NULL, "/share/games/nes/kungfu.nes");
 
   // load program here
 }
