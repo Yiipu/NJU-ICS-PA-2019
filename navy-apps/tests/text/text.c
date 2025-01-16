@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 int main() {
-  printf("PASS!!!\n");
   FILE * fp = fopen("/share/texts/num", "r+");
   assert(fp);
+  printf("PASS!!!\n");
 
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
