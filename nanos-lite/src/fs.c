@@ -55,10 +55,8 @@ static inline void fd_check(int fd) {
 }
 
 int fs_open(const char * pathname, int flags, int mode) {
-  printf("%s\n", pathname);
   for (int i = 0; i < NR_FILES; i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
-      printf("%d\n", i);
       return i;
     }
   }
