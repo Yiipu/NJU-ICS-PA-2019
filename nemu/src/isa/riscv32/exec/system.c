@@ -44,7 +44,7 @@ make_EHelper(system) {
       /* ecall */
       raise_intr(reg_l(17), decinfo.seq_pc - 4);
     } else if (decinfo.isa.instr.val == 0x10200073) {
-      /* mret */
+      /* sret */
       decinfo.is_jmp = 1;
     } else {
       panic("can't be here!");
