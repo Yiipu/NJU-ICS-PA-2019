@@ -1,6 +1,8 @@
 #include "syscall.h"
 #include "common.h"
 
+static int programBrk;
+
 static inline size_t sys_write(int fd, void * buf, size_t len) {
   switch (fd) {
   case 1:
@@ -13,6 +15,11 @@ static inline size_t sys_write(int fd, void * buf, size_t len) {
     panic("fd io not implemented");
   }
   return len;
+}
+
+static inline int sys_brk(int addr) {
+  programBrk = addr;
+  return 0;
 }
 
 _Context * do_syscall(_Context * c) {
@@ -29,6 +36,9 @@ _Context * do_syscall(_Context * c) {
     break;
   case SYS_write:
     c->GPRx = sys_write(a[1], (void *)(a[2]), a[3]);
+    break;
+  case SYS_brk:
+    c->GPRx = sys_brk(a[1]);
     break;
   default:
     panic("sys call %d not implemented!", a[0]);
