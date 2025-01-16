@@ -1,5 +1,13 @@
 #include "common.h"
+#include <am.h>
 #include <amdev.h>
+#include <nemu.h>
+
+extern int screen_width();
+extern int screen_height();
+
+size_t __am_input_read(uintptr_t reg, void * buf, size_t size);
+size_t __am_timer_read(uintptr_t reg, void * buf, size_t size);
 
 size_t serial_write(const void * buf, size_t offset, size_t len) {
   for (size_t i = 0; i < len; ++i)
@@ -36,14 +44,20 @@ size_t get_dispinfo_size() {
 }
 
 size_t dispinfo_read(void * buf, size_t offset, size_t len) {
-  return 0;
+  len = sprintf(buf, dispinfo + offset);
+  return len;
 }
 
 size_t fb_write(const void * buf, size_t offset, size_t len) {
-  return 0;
+  int x = (offset / 4) % screen_width();
+  int y = (offset / 4) / screen_width();
+  // draw_sync();
+  draw_rect((void *)buf, x, y, len / 4, 1);
+  return len;
 }
 
 size_t fbsync_write(const void * buf, size_t offset, size_t len) {
+  draw_sync();
   return 0;
 }
 
@@ -51,6 +65,5 @@ void init_device() {
   Log("Initializing devices...");
   _ioe_init();
 
-  // TODO: print the string to array `dispinfo` with the format
-  // described in the Navy-apps convention
+  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d\n", screen_width(), screen_height());
 }
