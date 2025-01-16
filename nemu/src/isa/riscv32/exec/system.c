@@ -1,3 +1,4 @@
+#include "cpu/decode.h"
 #include "cpu/exec.h"
 #include "debug.h"
 
@@ -42,12 +43,11 @@ make_EHelper(system) {
   case 0b0:
     if (decinfo.isa.instr.csr == 0) { // csr == func12
       /* ecall */
-      raise_intr(reg_l(33), decinfo.seq_pc - 4);
+      raise_intr(reg_l(17), cpu.pc);
     } else if (decinfo.isa.instr.val == 0x10200073) {
       /* sret */
-      decinfo.is_jmp = 1;
-    } else {
-      panic("can't be here!");
+      decinfo.jmp_pc = decinfo.isa.sepc + 4;
+      rtl_j(decinfo.jmp_pc);
     }
     break;
   /* csrrw */
@@ -55,12 +55,14 @@ make_EHelper(system) {
     s0 = readcsr(decinfo.isa.instr.csr);
     writecsr(decinfo.isa.instr.csr, id_src->val);
     rtl_sr(id_dest->reg, &s0, 4);
+    print_asm_template3(csrrw);
     break;
   /* csrrs */
   case 0b010:
     s0 = readcsr(decinfo.isa.instr.csr);
     writecsr(decinfo.isa.instr.csr, s0 | id_src->val);
     rtl_sr(id_dest->reg, &s0, 4);
+    print_asm_template3(csrrs);
     break;
   default:
     panic("unsupported csr operation");
