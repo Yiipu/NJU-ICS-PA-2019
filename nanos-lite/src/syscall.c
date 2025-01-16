@@ -32,6 +32,7 @@ static inline int sys_brk(int addr) {
 }
 
 _Context * do_syscall(_Context * c) {
+  panic("s");
   uintptr_t a[4];
   a[0] = c->GPR1, a[1] = c->GPR2, a[2] = c->GPR3, a[3] = c->GPR4;
 
@@ -44,7 +45,6 @@ _Context * do_syscall(_Context * c) {
     _halt(0);
     break;
   case SYS_write:
-    panic("w");
     c->GPRx = sys_write(a[1], (void *)(a[2]), a[3]);
     break;
   case SYS_read:
