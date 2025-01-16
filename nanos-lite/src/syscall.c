@@ -41,7 +41,7 @@ _Context * do_syscall(_Context * c) {
     c->GPRx = 0;
     break;
   case SYS_exit:
-    _halt(0);
+    naive_uload(NULL, "/bin/init");
     break;
   case SYS_write:
     c->GPRx = sys_write(a[1], (void *)(a[2]), a[3]);
