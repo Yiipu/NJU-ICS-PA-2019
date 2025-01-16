@@ -42,7 +42,8 @@ make_EHelper(system) {
   case 0b0:
     if (decinfo.isa.instr.csr == 0) { // csr == func12
       /* ecall */
-      Log("ecall");
+      Log("%d", decinfo.seq_pc);
+      panic("1");
       raise_intr(reg_l(17), decinfo.seq_pc - 4);
     } else if (decinfo.isa.instr.val == 0x10200073) {
       /* sret */
