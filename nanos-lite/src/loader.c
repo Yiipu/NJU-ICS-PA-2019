@@ -1,3 +1,4 @@
+#include "fs.h"
 #include "proc.h"
 #include <elf.h>
 

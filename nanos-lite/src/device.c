@@ -15,10 +15,25 @@ static const char * keyname[256] __attribute__((used)) = {
     _KEYS(NAME)};
 
 size_t events_read(void * buf, size_t offset, size_t len) {
-  return 0;
+  int keycode = read_key();
+  if (keycode != _KEY_NONE) {
+    if (keycode & 0x8000) {
+      keycode ^= 0x8000;
+      len = sprintf(buf, "kd %s\n", keyname[keycode]);
+    } else if (!((keycode & ~0x8000) == _KEY_NONE)) {
+      len = sprintf(buf, "ku %s\n", keyname[keycode]);
+    }
+  } else {
+    len = sprintf(buf, "t %u\n", uptime());
+  }
+  return len;
 }
 
 static char dispinfo[128] __attribute__((used)) = {};
+
+size_t get_dispinfo_size() {
+  return strlen(dispinfo);
+}
 
 size_t dispinfo_read(void * buf, size_t offset, size_t len) {
   return 0;
