@@ -10,6 +10,9 @@ _Context * do_syscall(_Context * c) {
     _yield();
     c->GPRx = 0;
     break;
+  case SYS_exit:
+    _halt();
+    break;
   }
   return NULL;
 }
