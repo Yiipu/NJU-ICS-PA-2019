@@ -11,7 +11,7 @@ _Context * do_syscall(_Context * c) {
     c->GPRx = 0;
     break;
   case SYS_exit:
-    _halt();
+    _halt(0);
     break;
   }
   return NULL;
