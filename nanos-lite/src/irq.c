@@ -1,8 +1,12 @@
 #include "common.h"
 
-static _Context* do_event(_Event e, _Context* c) {
+static _Context * do_event(_Event e, _Context * c) {
   switch (e.event) {
-    default: panic("Unhandled event ID = %d", e.event);
+  case _EVENT_YIELD:
+    printf("一句话...\n");
+    break;
+  default:
+    panic("Unhandled event ID = %d", e.event);
   }
 
   return NULL;
