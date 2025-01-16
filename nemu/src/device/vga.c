@@ -14,12 +14,12 @@
 #define SCREEN_H 300
 #define SCREEN_W 400
 
-static SDL_Window *window = NULL;
-static SDL_Renderer *renderer = NULL;
-static SDL_Texture *texture = NULL;
+static SDL_Window * window = NULL;
+static SDL_Renderer * renderer = NULL;
+static SDL_Texture * texture = NULL;
 
-static uint32_t (*vmem) [SCREEN_W] = NULL;
-static uint32_t *screensize_port_base = NULL;
+static uint32_t (*vmem)[SCREEN_W] = NULL;
+static uint32_t * screensize_port_base = NULL;
 
 static inline void update_screen() {
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
@@ -29,8 +29,9 @@ static inline void update_screen() {
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write) {
-  // TODO: call `update_screen()` when writing to the sync register
-  TODO();
+  if (is_write) {
+    update_screen();
+  }
 }
 
 void init_vga() {
@@ -41,7 +42,7 @@ void init_vga() {
   SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
   texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-      SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+                              SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
 
   screensize_port_base = (void *)new_space(8);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
@@ -51,4 +52,4 @@ void init_vga() {
   vmem = (void *)new_space(0x80000);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
 }
-#endif	/* HAS_IOE */
+#endif /* HAS_IOE */
