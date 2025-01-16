@@ -13,6 +13,8 @@ _Context * do_syscall(_Context * c) {
   case SYS_exit:
     _halt(0);
     break;
+  default:
+    panic("sys call %d not implemented!", a[0]);
   }
   return NULL;
 }
