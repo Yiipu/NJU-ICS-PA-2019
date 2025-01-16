@@ -132,11 +132,11 @@ static OpcodeEntry opcode_table [32] = {
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY, EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, IDEX(R, reg), IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-  /* b11 */ IDEX(B, branch), IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal), EMPTY, EMPTY, EMPTY, EMPTY,
+  /* b11 */ IDEX(B, branch), IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal), IDEX(system, system), EMPTY, EMPTY, EMPTY,
 };
 // clang-format on
 
-void isa_exec(vaddr_t *pc) {
+void isa_exec(vaddr_t * pc) {
   decinfo.isa.instr.val = instr_fetch(pc, 4);
   // 不支持压缩指令，所有 opcode 低两位必须为 0b11
   assert(decinfo.isa.instr.opcode1_0 == 0x3);

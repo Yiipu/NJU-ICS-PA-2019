@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 // decode operand helper
-#define make_DopHelper(name)                                                   \
+#define make_DopHelper(name) \
   void concat(decode_op_, name)(Operand * op, uint32_t val, bool load_val)
 
 static inline make_DopHelper(i) {
@@ -101,4 +101,11 @@ make_DHelper(st) {
   rtl_add(&id_src->addr, &id_src->val, &id_src2->val);
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
+}
+
+make_DHelper(system) {
+  t0 = 4;
+  rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
 }
