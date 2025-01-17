@@ -6,7 +6,6 @@
 const char lower_dict[] = "0123456789abcdef";
 const char upper_dict[] = "0123456789ABCDEF";
 
-// 借鉴了 https://github.com/atgreen/FreeRTOS/blob/master/Demo/CORTEX_STM32F103_Primer_GCC/printf-stdarg.c
 static inline int _printc(char ** out, char c) {
   if (out) {
     **out = c;
