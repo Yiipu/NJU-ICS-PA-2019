@@ -2,7 +2,7 @@
 #include "monitor/monitor.h"
 #include <sys/time.h>
 
-#define RTC_PORT 0x48   // Note that this is not the standard
+#define RTC_PORT 0x48 // Note that this is not the standard
 #define RTC_MMIO 0xa1000048
 
 void timer_intr() {
@@ -12,7 +12,7 @@ void timer_intr() {
   }
 }
 
-static uint32_t *rtc_port_base = NULL;
+static uint32_t * rtc_port_base = NULL;
 
 void rtc_io_handler(uint32_t offset, int len, bool is_write) {
   assert(offset == 0);
@@ -26,7 +26,7 @@ void rtc_io_handler(uint32_t offset, int len, bool is_write) {
 }
 
 void init_timer() {
-  rtc_port_base = (void*)new_space(4);
+  rtc_port_base = (void *)new_space(4);
   add_pio_map("rtc", RTC_PORT, (void *)rtc_port_base, 4, rtc_io_handler);
   add_mmio_map("rtc", RTC_MMIO, (void *)rtc_port_base, 4, rtc_io_handler);
 }
